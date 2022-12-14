@@ -5,6 +5,7 @@ import lesson1.ModelElements.Flash;
 import lesson1.ModelElements.PoligonalModel;
 import lesson1.ModelElements.Scene;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public class ModelStore implements IModelChanger{
     public List<Camera> Cameras;
 
     private List<IModelChangedObserver> changeObservers;
+
+    public ModelStore() {
+        this.changeObservers = new ArrayList<>();
+    }
 
     public Scene GetScene(int ID) {
         if (ID < 0 || ID >= Scenes.size()) {

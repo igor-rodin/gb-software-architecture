@@ -13,6 +13,13 @@ public class Scene {
     public List<PoligonalModel> Models;
     public List<Flash> Flashes;
 
+
+    public Scene(int id, List<PoligonalModel> models, List<Flash> flashes) {
+        Id = id;
+        Models = models;
+        Flashes = flashes;
+    }
+
     /**
      * Method add polygonal model to the Scene
      * @param model polygonal model {@link PoligonalModel}
