@@ -1,10 +1,11 @@
 package lesson3.task1;
 
-import lesson3.task1.interfaces.FillingStation;
+import lesson3.task1.abstractcars.AbstractCar;
 
-public class GasolineCar extends Car implements FillingStation {
-    public GasolineCar() {
-        setFuelType(FuelType.GASOLINE);
+public class GasolineCar extends AbstractCar {
+
+    public GasolineCar(String brand, String model, BodyType bodyType, FuelType fuelType, int numberWheels) {
+        super(brand, model, bodyType, fuelType, numberWheels);
     }
 
     @Override
@@ -40,11 +41,5 @@ public class GasolineCar extends Car implements FillingStation {
     @Override
     public void turnOffWipers() {
 
-    }
-
-    @Override
-    public boolean refueling(double fuelVolume) {
-        System.out.println("Refueling with " + getFuelType().name());
-        return true;
     }
 }

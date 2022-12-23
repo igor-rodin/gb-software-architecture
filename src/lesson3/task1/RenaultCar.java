@@ -1,9 +1,14 @@
 package lesson3.task1;
 
+import lesson3.task1.abstractcars.AbstractCar;
 import lesson3.task1.interfaces.FillingStation;
 import lesson3.task1.interfaces.Wiping;
 
-public class RenaultCar extends Car implements FillingStation, Wiping {
+public class RenaultCar extends AbstractCar implements Wiping {
+    public RenaultCar(String brand, String model, BodyType bodyType, FuelType fuelType, int numberWheels) {
+        super(brand, model, bodyType, fuelType, numberWheels);
+    }
+
     @Override
     public void move() {
         System.out.println("Moving...");
@@ -39,11 +44,6 @@ public class RenaultCar extends Car implements FillingStation, Wiping {
     @Override
     public void turnOffWipers() {
         System.out.println("Wipers off...");
-    }
-
-    @Override
-    public boolean refueling(double fuelVolume) {
-        return true;
     }
 
     @Override
