@@ -22,7 +22,7 @@ public class CashRepository implements ICashRepo {
         //имитация работы банка
         clients = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
-            clients.add(new BankAccount());
+            clients.add(new BankAccount(i));
         }
 
     }

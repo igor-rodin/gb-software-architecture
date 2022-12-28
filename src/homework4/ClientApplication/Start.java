@@ -254,7 +254,7 @@ public class Start extends EnterData {
     private void buyTicketMenuConfirmLogic(String answer) {
         if (answer.equalsIgnoreCase("YES")) {
             for (var t : customer.getSelectedTickets()) {
-                if (t.getDate().equals(ticketDate) && t.getRouteNumber() == ticketRouteNumber && t.getValid()) {
+                if (t.getDate().equals(ticketDate) && t.getRouteNumber() == ticketRouteNumber && t.isValid()) {
                     boolean flag = false;
                     try {
                         flag = customer.buyTicket(t);

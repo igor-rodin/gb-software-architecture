@@ -4,14 +4,28 @@ package homework4.Models;
  * Модель банковского аккаунта
  */
 public class BankAccount {
+    private long card;
+    private long oldCard;
+    private int balance;
 
 
 
-
-    public BankAccount() {
-        this.card = oldCard + 1;
+    public BankAccount(long card) {
         oldCard = this.card;
+        this.card = card;
         balance = 1000;
+    }
+
+    public long getCard() {
+        return card;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     @Override

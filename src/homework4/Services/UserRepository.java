@@ -60,7 +60,7 @@ public class UserRepository implements IUserRepo {
                 return client;
             }
         }
-        throw new RuntimeException("A client with this ID not found");
+        throw new RuntimeException("A client with this name not found");
     }
 
     @Override

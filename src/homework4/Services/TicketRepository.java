@@ -46,7 +46,7 @@ public class TicketRepository implements ITicketRepo {
     public List<Ticket> readAll(int routeNumber) throws RuntimeException {
         List<Ticket> routeTickets = new ArrayList<>();
         for (Ticket ticket : tickets) {
-            if (ticket.getRouteNumber() == routeNumber && ticket.getValid() == true) {
+            if (ticket.getRouteNumber() == routeNumber && ticket.isValid() == true) {
                 routeTickets.add(ticket);
             }
         }

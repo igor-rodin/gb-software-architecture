@@ -6,8 +6,13 @@ import java.util.Date;
  * Модель билета
  */
 public class Ticket{
-
-
+    private int routeNumber;
+    private Carrier.ZONE_TYPE zoneFrom;
+    private Carrier.ZONE_TYPE zoneTo;
+    private int place;
+    private int price;
+    private Date date;
+    private boolean isValid;
 
     public Ticket(int routeNumber, int place, int price, Date date, boolean isValid) {
         this.routeNumber = routeNumber;
@@ -17,6 +22,37 @@ public class Ticket{
         this.isValid = isValid;
     }
 
+    public int getRouteNumber() {
+        return routeNumber;
+    }
+
+    public void setZoneFrom(Carrier.ZONE_TYPE zoneFrom) {
+        this.zoneFrom = zoneFrom;
+    }
+
+    public void setZoneTo(Carrier.ZONE_TYPE zoneTo) {
+        this.zoneTo = zoneTo;
+    }
+
+    public int getPlace() {
+        return place;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
+    }
 
     @Override
     public String toString() {
