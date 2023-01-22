@@ -7,6 +7,10 @@ import Application.MovieApp;
 import Domain.Model;
 import Domain.MovieSearchRequest;
 
+/**
+ * Класс принадлежит к слою frameworks. Служит для взаимодествия с внешним миром,
+ * содержит реализацию интерфейса для обработки пользовательского ввода.
+ */
 public class UserCommand implements IUserInput {
     private Model model;
 

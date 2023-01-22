@@ -6,6 +6,10 @@ import Domain.MovieSearchRequest;
 
 import java.util.*;
 
+/**
+ * Класс принадлежит к слою frameworks. Служит для взаимодествия с внешним миром,
+ * содержит реализацию интерфейса для получения обзоров на фильмы из внешнего хранилища (из hashmap).
+ */
 public class MovieReviewsRepo implements IFetchMovieReviews {
     private Map<String, List<MovieReview>> movieReviewMap;
 

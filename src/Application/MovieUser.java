@@ -2,6 +2,10 @@ package Application;
 
 import Domain.MovieSearchRequest;
 
+/**
+ * Класс содержит основную бизнес-логику обработки запроса пользователя на поиск запроса.
+ * Не зависит от внешнего слоя
+ */
 public class MovieUser {
     private IUserInput userInputDriverPort;
 

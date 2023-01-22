@@ -1,5 +1,8 @@
 package Domain;
 
+/**
+ * Сущность из доменной области, описывающая обзор на фильм
+ */
 public class MovieReview {
     String movieName;
     double movieScore;

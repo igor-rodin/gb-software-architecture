@@ -1,5 +1,8 @@
 package Domain;
 
+/**
+ * Сущность из доменной области, описывающая запрос на обзор фильма
+ */
 public class MovieSearchRequest {
     String request;
 

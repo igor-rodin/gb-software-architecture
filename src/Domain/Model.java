@@ -2,6 +2,7 @@ package Domain;
 
 import Application.MovieApp;
 
+
 public class Model {
     private MovieApp movieApp;
 

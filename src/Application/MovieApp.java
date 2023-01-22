@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Класс содержит основную бизнес-логику выборки, фильтрации и выода пользователю обзоров на фильмы.
+ * Не зависит от внешнего слоя
+ */
 public class MovieApp {
 
+    private static Random rand = new Random();
     private IFetchMovieReviews fetchMovieReviews;
     private IPrintMovieReviews printMovieReviews;
-    private static Random rand = new Random();
 
     public MovieApp(IFetchMovieReviews fetchMovieReviews, IPrintMovieReviews printMovieReviews) {
         this.fetchMovieReviews = fetchMovieReviews;
