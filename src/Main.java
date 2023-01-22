@@ -16,10 +16,10 @@ public class Main {
 
         MovieUser movieUser = new MovieUser(userCommand);
         MovieSearchRequest starWarsRequest = new MovieSearchRequest("StarWars");
-        MovieSearchRequest starTreckRequest = new MovieSearchRequest("StarTreck");
+        MovieSearchRequest starTrekRequest = new MovieSearchRequest("StarTrek");
 
-        System.out.println("Displaying reviews for movie " + starTreckRequest.getMovieName());
-        movieUser.processInput(starTreckRequest);
+        System.out.println("Displaying reviews for movie " + starTrekRequest.getMovieName());
+        movieUser.processInput(starTrekRequest);
         System.out.println("Displaying reviews for movie " + starWarsRequest.getMovieName());
         movieUser.processInput(starWarsRequest);
     }
