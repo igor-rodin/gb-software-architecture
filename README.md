@@ -10,4 +10,4 @@
 
 ### Интерфейс приложения
 
-![AlUI.png](AlUI.png)
+![AlUI.png](vcRobot.png)
