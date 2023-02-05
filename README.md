@@ -4,10 +4,10 @@
 
 <img src= "UseCase.png" alt="Use case diagram" style="width:800px;"/>
 
-### Диаграмма ERD домена приложения
+### ERD диаграмма
 
 <img src= "ERD.png" alt="ERD diagram" style="width:800px;"/>
 
-### Интерфейс для заказа ресурсов в облачном сервисе
+### Интерфейс приложения
 
-![UI.png](UI.png)
+![AlUI.png](AlUI.png)
