@@ -1,262 +1,776 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  title: OpenAPI спецификация заказа на аренду облачных ресурсов
+  title: OpenAPI спецификация vcRobot
   version: 0.0.1
 servers: 
   - url: http://localhost:8080/api/v1/
     description: Dev server
 paths:
-  /clouds/{client_id}:
-    get:
-      summary: Метод получения списка всех арендованных облачных ресурсов клиента client_id
+  /users:
+    post: 
+      summary: Метод регистрации пользователя
       tags:
-        - Clouds
-      operationId: getCloudsForCustomerId
-      parameters:
-        - name: client_id
-          in: path
-          required: true
-          description: Идентификатор клиента
-          schema:
-            type: integer
-          example: 354
+        - Users
+      operationId: createUser
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
       responses:
         "200":
-           description: Успешный ответ со списком арендованных ресурсов
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        '400':
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{user_id}:
+    get:
+      summary: Метод получения информации о пользователе по user_id
+      tags:
+        - Users
+      operationId: getUserById
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: Идентификатор пользователя
+          schema:
+            type: integer
+          example: 5
+      responses:
+        "200":
+           description: Успешный ответ c информацией о пользователе
            content:
               application/json:
                 schema:
                   type: array
                   items:
-                    $ref: "#/components/schemas/Cloud"
+                    $ref: "#/components/schemas/User"
         "5XX":
            description: Ошибка сервера. Возвращант описание ошибки
            content:
              application/json:
                schema:
                  $ref: "#/components/schemas/Error"
-    post:
-      summary: Метод создания заказа на ресурсы облака для клиента client_id
+    put:
+      summary: Метод обновления информации о пользователе
       tags:
-        - Clouds
-      operationId: createCloudForUser
+        - Users
+      operationId: updateUserById
       parameters:
-        - name: client_id
+        - name: user_id
           in: path
           required: true
-          description: Идентификатор клиента
+          description: Идентификатор пользователя
           schema:
             type: integer
-          example: 456
+          example: 354
       requestBody: 
         required: true
         content:
-          adplication/json:
+          application/json:
             schema:
-              $ref: "#/components/schemas/Cloud"
+              $ref: "#/components/schemas/User"
       responses:
         "200":
-          description: Заказа на облачные ресурсы успешно создан
+          description: Данные пользователя успешно обновлены
           content:
-            adplication/json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/Cloud"
+                $ref: "#/components/schemas/AuthUser"
         '400':
           description: Некорректный запрос. Возвращает некорректный запрос
           content:
-             adplication/json:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращает описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Метод удаления информвции о пользователе
+      tags:
+        - Users
+      operationId: removeUserById
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: Идентификатор пользователя
+          schema:
+            type: integer
+          example: 354
+      responses:
+        "200":
+          description: Данные пользователя успешно удалены
+        '400':
+          description: Пользователь с таким идентификатором не найден
+          content:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
         "5XX":
           description: Ошибка сервера. Возвращант описание ошибки
           content:
-            adplication/json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /clouds/{client_id}/{cloud_id}:
+  /users/{user_id}/robots:
     get:
-      summary: Метод получения данных о ресурce cloud_id для клиента client_id
+      summary: Метод получения списка пылесосов пользователя по user_id
       tags:
-        - Clouds
-      operationId: getCloudById
+        - Users
+      operationId: getRobotCleanersForUserById
       parameters:
-        - name: client_id
+        - name: user_id
           in: path
           required: true
-          description: Идентификатор клиента
+          description: Идентификатор пользователя
           schema:
             type: integer
-          example: 345
-        - name: cloud_id
-          in: path
-          required: true
-          description: Идентификатор заказа облака
-          schema:
-            type: integer
-          example: 234
+          example: 4
+      responses:
+        "200":
+           description: Успешный ответ c информацией с пылеслсами
+           content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Robot"
+        "5XX":
+           description: Ошибка сервера. Возвращант описание ошибки
+           content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+  /groups/:
+    post:
+      summary: Метод создания группы
+      tags:
+        - Groups
+      operationId: createGroup  
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Group"
       responses:
         "200":
           description: Запрос выполнен успешно
           content:
-            adplication/json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/Cloud"
+                type: integer
+                example: 4
+                description: Идентификатор группы
         "400":
           description: Некорректный запрос. Возвращает некорректный запрос
           content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
         "404":
           description: Ресурс не найден
           content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
         "5XX":
            description: Ошибка сервера. Возвращант описание ошибки
            content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
+  /groups/{group_id}:
     put:
-      summary: Метод изменения заказа на ресурс cloud_id дляклиента client_id
+      summary: Метод обновления информации о группе
       tags:
-        - Clouds
-      operationId: updateCloudById
-      description: Обновляет заказ на облачные ресурсы
+        - Groups
+      operationId: updateGroupById
+      description: Обновляет гоуппу с group_id
       parameters:
-        - name: client_id
+        - name: group_id
           in: path
           required: true
-          description: Идентификатор клиента
+          description: Идентификатор группы
           schema:
             type: integer
-          example: 345
-        - name: cloud_id
-          in: path
-          required: true
-          description: Идентификатор заказа облака
-          schema:
-            type: integer
-          example: 234
+            example: 4
       requestBody: 
         required: true
         content:
-          adplication/json:
+          application/json:
             schema:
-              $ref: "#/components/schemas/Cloud"
+              $ref: "#/components/schemas/Group"
       responses:
         "200":
-          description: Заказ успешно обновлен
+          description: Группа успешно обновлена
           content:
-            adplication/json:
+            application/json:
               schema:
-                $ref: "#/components/schemas/Cloud"
+                $ref: "#/components/schemas/Group"
         "400":
           description: Некорректный запрос. Возвращает некорректный запрос
           content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
         "404":
           description: Ресурс с указанным cloud_id не найден
           content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
         "5XX":
            description: Ошибка сервера. Возвращант описание ошибки
            content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
     delete:
-      summary: Метод отмены заказа на ресурс cloud_id для клиента client_id
+      summary: Метод удаления пользователя из группы
       tags: 
-        - Clouds
-      operationId: cancelCloudById
+        - Groups
+      operationId: removeUserFromGroupById
       parameters:
-        - name: client_id
+        - name: group_id
           in: path
           required: true
-          description: Идентификатор клиента
+          description: Идентификатор группы
           schema:
             type: integer
-          example: 345
-        - name: cloud_id
-          in: path
-          required: true
-          description: Идентификатор заказа облака
-          schema:
-            type: integer
-          example: 234
+            example: 4
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthUser"
       responses:
         "200":
-           description: Успешный ответ заказом облака по ID
+           description: Пользователь успешно удален из группы
            content:
-             adplication/json: {}
+             application/json: {}
         "400":
           description: Некорректный запрос. Возвращает некорректный запрос
           content:
-             adplication/json:
+             aplication/json:
                schema:
                  $ref: "#/components/schemas/Error"
         '404':
-          description: Ресурс с не найден
+          description: Ресурс не найден
           content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
         "5XX":
            description: Ошибка сервера. Возвращант описание ошибки
            content:
-             adplication/json:
+             application/json:
                schema:
                  $ref: "#/components/schemas/Error"
+  /robots:
+    post:
+      summary: Метод добавления пылесоса пользователем
+      tags:
+        - Robots
+      operationId: addRobotCleaner
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Robot"
+      responses:
+        "200":
+          description:  Пылесос успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Robot"
+        '400':
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /robots/{robot_id}:
+    get:
+      summary: Метод получения информации о пылесосе c robot_id
+      tags:
+        - Robots
+      operationId: getRobotCleanerInfoById
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthUser"
+      responses:
+        "200":
+          description:  Запрос успешно выполнен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Robot"
+        '400':
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Метод обновления информации о пылесосе
+      tags:
+        - Robots
+      operationId: updateRobotCleanerById
+      description: Обновляет информацию о пылесосе с robot_id
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          description: Идентификатор пылесоса
+          schema:
+            type: integer
+            example: 4
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Robot"
+      responses:
+        "200":
+          description: Данные пылесоса успешно обновлены
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Robot"
+        "400":
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "404":
+          description: Ресурс с указанным robot_id не найден
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+           description: Ошибка сервера. Возвращант описание ошибки
+           content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+    delete:
+      summary: Метод удаления пылесоса
+      tags: 
+        - Robots
+      operationId: removeRobotCleanerById
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          description: Идентификатор пылесоса
+          schema:
+            type: integer
+            example: 4
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Robot"
+      responses:
+        "200":
+           description: Пылесос успешно удален
+           content:
+             application/json: {}
+        "400":
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             aplication/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        '404':
+          description: Ресурс не найден
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+           description: Ошибка сервера. Возвращант описание ошибки
+           content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+  /schedules:
+    post:
+      summary: Метод добавления расписания уборки для пылесоса пользователем
+      tags:
+        - Schedules
+      operationId: addSchedule
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+      responses:
+        "200":
+          description:  Расписание успешно добавлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        '400':
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /schedules/{robot_id}:
+    get:
+      summary: Метод получения расписания уборок пылесоса c robot_id
+      tags:
+        - Schedules
+      operationId: getAllSchedulesForRobotCleaner
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          description: Идентификатор пылесоса
+          schema:
+            type: integer
+            example: 4
+      responses:
+        "200":
+          description:  Запрос успешно выполнен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Schedule"
+        '400':
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /schedules/{robot_id}/{schedule_id}:
+    get:
+      summary: Метод получения информации об убороке  schedule_id пылесоса robot_id
+      tags:
+        - Schedules
+      operationId: getScheduleForRobotCleanerById
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          description: Идентификатор пылесоса
+          schema:
+            type: integer
+            example: 4
+        - name: schedule_id
+          in: path
+          required: true
+          description: Идентификатор плана уборки
+          schema:
+            type: integer
+            example: 5
+      responses:
+        "200":
+          description:  Запрос успешно выполнен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Schedule"
+        '400':
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+             application/json:
+               schema:
+                 $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Метод обновления информации о плане уборки пылесоса
+      tags:
+        - Schedules
+      operationId: updateScheduleForRobotCleanerById
+      description: Обновляет информацию о плане уборки schedule_id пылесоса robot_id
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          description: Идентификатор пылесоса
+          schema:
+            type: integer
+            example: 4
+        - name: schedule_id
+          in: path
+          required: true
+          description: Идентификатор плана уборки
+          schema:
+            type: integer
+            example: 5
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Schedule"
+      responses:
+        "200":
+          description: Данные пылесоса успешно обновлены
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Robot"
+        "400":
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Ресурс с указанным robot_id не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Метод удаления расписания schedule_id пылесоса robot_id
+      tags: 
+        - Schedules
+      operationId: removeScheduleForRobotCleanerById
+      parameters:
+        - name: robot_id
+          in: path
+          required: true
+          description: Идентификатор пылесоса
+          schema:
+            type: integer
+            example: 4
+        - name: schedule_id
+          in: path
+          required: true
+          description: Идентификатор плана уборки
+          schema:
+            type: integer
+            example: 5
+      responses:
+        "200":
+          description: Расписание успешно удалено
+          content:
+            application/json: {}
+        "400":
+          description: Некорректный запрос. Возвращает некорректный запрос
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        '404':
+          description: Ресурс не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "5XX":
+          description: Ошибка сервера. Возвращант описание ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
-    Cloud:
+    User:
       type: object
       required:
-        - cloud_id
-        - OS
-        - CPU
-        - HDD
-        - RAM
-        - duration
+          - user_id
+          - hash
+          - email
       properties:
-        cloud_id:
-          type: integer
-          minimum: 1
-          example: 134
-          description: Id ресурса
-        OS:
-          type: string
-          enum:
-            - Windows
-            - Linux
-          description: Операционная система сервера
-        CPU:
+        user_id:
           type: integer
           minimum: 1
           example: 4
-          description: Количество ядер процессора
-        RAM:
+          description: Уникальный идентификатор пользователя
+        hash:
+          type: string
+          example: 127e6fbfe24a750e72930c220a8e138275656b8e5d8f48a98c3c92df2caba935
+          description: Хешированый login+pssword пользователья
+        email:
+          type: string
+          example: user@mail.com
+          description: Адрес электронной почты пользователя
+    AuthUser:
+      type: object
+      required:
+        - user_id
+        - token
+      properties: 
+        user_id:
           type: integer
           minimum: 1
-          example: 16
-          description: Доступная оперативная память, Гбт
-        HDD:
-          type: integer
-          minimum: 512
-          example: 1024
-          description: Доступная память жесткого диска, Мбт
-        duration:
+          example: 4
+          description: Уникальный идентификатор пользователя
+        token:
+          type: string
+          format: byte
+          example: TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0
+          description: Токен пользователя в кодировке base64
+    Group:
+      type: object
+      properties:
+        description:
+          type: string
+          example: group_name
+          description: Описание группы  
+    Robot:
+      type: object
+      required:
+        - robot_id
+        - user_id
+        - model
+        - serial_number
+        - firmware_version
+      properties:
+        robot_id:
           type: integer
           minimum: 1
-          example: 3
-          description: Длительность аренды в месяцах
+          example: 4
+          description: Идентификатор пылесоса
+        user_id:
+          type: integer
+          minimum: 1
+          example: 4
+          description: Уникальный идентификатор пользователя
+        model:
+          type: string
+          example: robot_model
+          description: Модель пылесоса
+        serial_number:
+          type: string
+          example: cvbh1562009
+          description: Серийный номер пылесоса
+        firmware_version:
+          type: string
+          example: v123.r3.b768
+          description: Версия опрошивки пылесоса
+        charge_level:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 4
+          description: Уровень зарядки пылесоса
+        garbage_level:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 40
+          description: Уровень заполнения мусорного контейнера пылесоса
+    Schedule:
+      description: Расписание уборок
+      type: object
+      properties: 
+        robot_id:
+          type: integer
+          minimum: 1
+          example: 4
+          description: Уникальный идентификатор пылесоса
+        clean_type:
+          type: string
+          enum:
+            - влажная
+            - сухая
+          example: Сухая
+          description: Тип уборки
+        clean_space:
+          type: string
+          enum:
+            - зональная
+            - полная
+            - выборчная
+          example: полная
+          description: Режим уборки
+        day:
+          type: string
+          enum:
+            - пн
+            - вт
+            - ср
+            - чтв
+            - пт
+            - суб
+            - вск
+          example: чтв
+          description: День уборки
+        time:
+          type: string
+          format: time
+          example: 12:00
+          description: Время уборки
+        repeate:
+          type: boolean
+          example: false
+          description: Надо ли проводить уборку в каждый day
     Error:
       type: object
       required:
